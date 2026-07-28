@@ -33,3 +33,10 @@ except Exception as e:
 finally:
     if 'connection' in locals():
         connection.close()
+
+def add_problem():
+    title = input("Enter title of problem:")
+    title_lower = title.lower()
+    difficulty = input(f"Enter difficulty of {title_lower}: ")
+    pattern = input(f"Enter pattern of {title_lower}: ")
+    confidence = int(f"Enter confidence level for {title_lower}: ")
