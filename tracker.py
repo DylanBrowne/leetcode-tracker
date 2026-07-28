@@ -3,6 +3,31 @@
 
 import sqlite3
 
+def add_problem():
+    try:
+        connection = sqlite3.connect("database.db")
+        cursor = connection.cursor()
+
+        title = input("Enter title of problem:")
+        title_lower = title.lower()
+        difficulty = input(f"Enter difficulty of {title_lower}: ")
+        pattern = input(f"Enter pattern of {title_lower}: ")
+        confidence = int(input(f"Enter confidence level for {title_lower}: "))
+
+        cursor.execute("""
+            INSERT OR FAIL INTO problems
+                (title, difficulty, pattern, confidence)
+                VALUES (?, ?, ?, ?)
+                """,
+                (title, difficulty, pattern, confidence)   
+        )
+
+        connection.commit()
+        connection.close()
+        print("nice")
+    except:
+        print("didnt work")
+
 # define connection and cursor. 
 
 # Connections are used to connect to a database (database.db)
@@ -27,16 +52,13 @@ try:
 
     connection.commit()
     print("Database table successfully verified/created.")
+
+    add_problem()
+
+    print("Problems succesfully added to DB")
 except Exception as e:
     print(f"Something went wrong: {e}")
 
 finally:
     if 'connection' in locals():
         connection.close()
-
-def add_problem():
-    title = input("Enter title of problem:")
-    title_lower = title.lower()
-    difficulty = input(f"Enter difficulty of {title_lower}: ")
-    pattern = input(f"Enter pattern of {title_lower}: ")
-    confidence = int(f"Enter confidence level for {title_lower}: ")
